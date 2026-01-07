@@ -1,0 +1,277 @@
+* {
+  margin: 0;
+  padding: 0;
+  background: url(images/dark_wood.jpg) ;
+  transition: 0.2s;
+  transition-timing-function: linear;
+}
+
+.body {
+  
+  text-align: center;
+  margin: auto;
+  
+}
+
+.check_warning {
+  background: rgb(72, 3, 137) !important; 
+}
+.check_def {
+  background: orange !important; 
+}
+
+img {
+  width: 55px;
+  height: 55px;
+}
+
+.opacity0 {
+  opacity:0;
+}
+
+.opacity1 {
+  opacity:1;
+}
+
+.for_flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.x {
+  width: 560px;
+  height: 560px;
+
+}
+
+.block {
+  width: 70px;
+  height: 70px;
+  float: left;
+}
+
+.ready_finish {
+  border: 3px solid red;
+  opacity:1;
+}
+
+.ready_start {
+  border: 3px solid green;
+  opacity:1;
+}
+
+.for_changes {
+  top: -90%; left: 0; bottom: 0; right: 0;
+  position: absolute;
+  margin:  auto;
+  height: 25px;
+  width: 50%;
+  border: 3px solid;
+  
+
+  text-align: center;
+  color:rgb(215, 8, 8);
+  background: rgb(100, 57, 20);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  font-weight: bold;
+}
+
+
+
+
+.black {
+  background: black;
+}
+.white {
+  background: white;
+}
+
+.left_panel {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 60px;
+  height: 560px;
+
+}
+
+.left_left_panel {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 70px;
+  height: 560px;
+
+}
+
+.right_panel {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50px;
+  height: 560px;
+
+}
+
+.right_right_panel {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 80px;
+  height: 560px;
+
+}
+
+.inner_left_panel {
+  height: 100px;
+  width: 40px;
+  background: rgb(216, 128, 13);
+  margin-top:20px;
+  margin-bottom:20px;
+  margin-left:10px;
+
+}
+
+.inner_left_left_panel {
+  height: 70px;
+  width: 70px;
+  background: rgb(216, 128, 13);
+  margin-top:35px;
+  margin-bottom:35px;
+
+}
+
+.inner_right_panel {
+  display: flex;            /* Включаем флекс для центрирования текста */
+  align-items: center;      /* Центрируем по вертикали */
+  justify-content: center;   /* Центрируем по горизонтали */
+  writing-mode: vertical-rl; /* Поворачивает текст вертикально */
+  text-align: center;        /* Выравнивает текст по центру */
+  white-space: nowrap;       /* Чтобы текст не переносился, если кнопка узкая */
+  color: black;
+  cursor: pointer;
+
+  height: 100px;
+  width: 40px;
+  background: rgb(216, 128, 13);
+  margin-top:20px;
+  margin-bottom:20px;
+  margin-left:10px;
+}
+
+.inner_right_right_panel {
+  height: 70px;
+  width: 70px;
+  background: rgb(216, 128, 13);
+  margin-top:35px;
+  margin-bottom:35px;
+  margin-left:10px;
+}
+
+.inner_left_panel:hover {
+  background: rgb(238, 91, 7);
+}
+.inner_right_panel:hover {
+  background: rgb(238, 91, 7);
+}
+.inner_left_left_panel:hover {
+  background: rgb(238, 91, 7);
+}
+.inner_right_right_panel:hover {
+  background: rgb(238, 91, 7);
+}
+
+
+
+
+
+
+
+
+.pawn_sentinel {
+  width: 60px;
+  height: 60px;
+  background: url(faces/111.jpg); 
+}
+
+.rook_sentinel {
+  width: 60px;
+  height: 60px;
+  background: url(faces/1.jpg); 
+}
+
+.steed_sentinel {
+  width: 60px;
+  height: 60px;
+  background: url(faces/108.jpg); 
+}
+
+.officer_sentinel {
+  width: 60px;
+  height: 60px;
+  background: url(faces/12.jpg); 
+}
+
+.queen_sentinel {
+  width: 60px;
+  height: 60px;
+  background: url(faces/113.jpg); 
+}
+
+.king_sentinel {
+  width: 60px;
+  height: 60px;
+  background: url(faces/5.jpg); 
+}
+
+.pawn_scourge {
+  width: 60px;
+  height: 60px;
+  background: url(faces/105.jpg); 
+}
+  
+.rook_scourge {
+  width: 60px;
+  height: 60px;
+  background: url(faces/46.jpg);  
+}
+  
+.steed_scourge {
+  width: 60px;
+  height: 60px;
+  background: url(faces/26.jpg); 
+}
+  
+.officer_scourge {
+  width: 60px;
+  height: 60px;
+  background: url(faces/13.jpg); 
+}
+  
+.queen_scourge {
+  width: 60px;
+  height: 60px;
+  background: url(faces/109.jpg);
+}
+  
+.king_scourge {
+  width: 60px;
+  height: 60px;
+  background: url(faces/17.jpg); 
+}
+
+.can_pick {
+    cursor: pointer !important;
+}
+
+/* Враг или пустая клетка, куда можно сходить (удар) */
+.can_attack {
+    cursor: pointer !important; 
+}
+
+/* Общий сброс для неактивных */
+.scourge, .sentinel, .empty {
+    cursor: default;
+}
