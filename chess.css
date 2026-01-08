@@ -349,6 +349,9 @@ img {
         min-width: 80px;
         padding: 0 5px;
     }
+    .notification_container {
+      top: 0;
+    }
 }
 
 /* Специальное условие для очень узких экранов */
