@@ -86,6 +86,12 @@ item.children[0].classList.remove("can_attack");
 };
 let func_shell_ready = function (x){ //x- это соответствующая функция реади. Сама функция весит на кликах, кроме пустоты
 return function (){      //именно эта тема будет вызываться ивентом клика
+
+    if (flag_for_conversion) {
+            console.log("Ждем выбора фигуры: Q или S");
+            return; 
+        }
+
     if (this.classList.contains("ready_finish") && flag_pickup){ // если именно эта фигура содержит класс реади финиш, то будет свап с фигурой содержащей реади старт
 
         if (func_search_replacement()?.children[0].classList.contains("pawn") && (this?.parentElement.classList[3][1]=== "1" ? true : this?.parentElement.classList[3][1]=== "8") ){
@@ -1294,6 +1300,7 @@ function AppearingFigures (){ // обнуляет и выставляет
 };
 function DisAppearingFigures (){
     flag_pickup = false;
+
     motion = true;
     Array.from(class_x.children).forEach((item)=>{ // превращаю всех в эмпти, из-за этого на всех весит лисенер апоинтмента емпти, нужно удалить - это ниже в этой строке class_x.innerHTML = class_x.innerHTML;
         func_appointment_empty(item.children[0]);
@@ -1309,6 +1316,7 @@ function DisAppearingFigures (){
 
 let func_go_re = function(){ //эта функция крепится на кнопку событием рестарта матча
     let promise = new Promise ((resolve, reject) =>{  
+    resetConversionState();
     DisAppearingFigures();
     for_changes.style.display = 'none';
     notificationContainer.classList.remove('show_conversion');
@@ -1318,16 +1326,25 @@ promise.then(AppearingFigures);
 };
 let func_resignation_sentinel = function(){ //эта функция крепится на кнопку принятия поражения света
     alert("scourge WIN");
+    resetConversionState();
     DisAppearingFigures();
     for_changes.style.display = 'none';
 };
 let func_resignation_scourge = function(){ //эта функция крепится на кнопку принятия поражения тьмы
     alert("sentinel WIN"); 
+    resetConversionState();
     DisAppearingFigures();
     for_changes.style.display = 'none';
 };
 
-
+function resetConversionState() {
+    flag_for_conversion = false;
+    memory_for_conversion = 0;
+    for_changes.style.display = 'none';
+    if (notificationContainer) {
+        notificationContainer.classList.remove('show_conversion');
+    }
+}
 //
 //
 (function(){
