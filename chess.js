@@ -8,20 +8,40 @@ let flag_for_conversion = false; // флаг для превращения пе�
 let memory_for_conversion = 0; // запоминается номер фигуры убитой на поляне для рокировки, шоб обработчик события клавы знал где осуществлять превращение
 let for_changes = document.querySelector('.for_changes');
 for_changes.style.display = 'none';
+let notificationContainer = document.querySelector('.notification_container');
+const btnQ = document.querySelector('.conversion_q');
+const btnS = document.querySelector('.conversion_s');
+const triggerConversion = (keyCode) => {
+    // Вызываем вашу существующую функцию, передавая объект похожий на event
+    func_handler_conversion_pawn_into({ which: keyCode });
+};
+
+// Вешаем клики
+if (btnQ) {
+    btnQ.onclick = () => triggerConversion(81); // 81 — это код клавиши Q
+}
+
+if (btnS) {
+    btnS.onclick = () => triggerConversion(83); // 83 — это код клавиши S
+}
 
 
 //
 // появление доски раз и навсегда
 (function AppearingBoard () {
-    for (let i = 0; i<8; i++){
-        for (let j = 0; j<8; j++){
-            if (j==0) flag_for_cell = !flag_for_cell;
-            block = document.createElement('div');
-            if (flag_for_cell) block.className = "block black for_flex"; //класс фор_флекс нужен чтобы чаилды (картинки-фигуры) стали по центру ячейки 
-            else block.className = "block white for_flex"
-            block.classList.add(grow+j*10+i); //начало сверху слева там (1;1), а не (0;0). по иксу и игрику. рост по иксу (вправо) это +10 к числу класса, по игрику это +1 к числу класса
-            block.appendChild(document.createElement('img')); //создание картинки внутри дивов ячеек
-            class_x.appendChild(block); //засовывание дивов в доску шахматную
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (j == 0) flag_for_cell = !flag_for_cell;
+            let block = document.createElement('div'); // добавил let, чтобы не было глобальной переменной
+            
+            // Оставляем ваши классы, они хорошие
+            block.className = flag_for_cell ? "block black for_flex__GG__WP" : "block white for_flex__GG__WP";
+            
+            // Ваша логика координат (рост +10 и +1) сохраняется
+            block.classList.add(grow + j * 10 + i); 
+            
+            block.appendChild(document.createElement('img'));
+            class_x.appendChild(block);
             flag_for_cell = !flag_for_cell;
         }
     }
@@ -125,30 +145,43 @@ let func_conversion_pawn_into = function () {  // вызывается при н
     flag_for_conversion = true;
     for_changes.style.display = 'block';
     for_changes.textContent = 'Please press "Q" or "S" button to conversion pawn';
+
+    if (notificationContainer) {
+        notificationContainer.classList.add('show_conversion');
+    }
 };
 let func_handler_conversion_pawn_into = function (event) {
-    if (flag_for_conversion){
-        for_changes.style.display = 'none';
-        if (event.which == 81){ // номер кнопки Q или Й (в зависимости от языка) для смены на ферзя
-            console.log("Замена на ферзя");
-            if (motion){
-                func_appointment_queen_scourge(func_search_img_by_num(memory_for_conversion));
-            }else{
-                func_appointment_queen_sentinel(func_search_img_by_num(memory_for_conversion));
+    if (flag_for_conversion) {
+        // Проверяем нажатие именно Q (81) или S (83)
+        if (event.which == 81 || event.which == 83) {
+            
+            // Прячем текст
+            for_changes.style.display = 'none';
+            
+            // УДАЛЯЕМ КЛАСС У РОДИТЕЛЯ (скрываем квадратики Q и S)
+            if (notificationContainer) {
+                notificationContainer.classList.remove('show_conversion');
             }
-            flag_for_conversion = false;
-        }
-        if (event.which == 83){ // номер кнопки S или Ы (в зависимости от языка) для смены на коня 
-            console.log("Замена на кконя");
-            if (motion){
-                func_appointment_steed_scourge(func_search_img_by_num(memory_for_conversion));
-            }else{
-                func_appointment_steed_sentinel(func_search_img_by_num(memory_for_conversion));
+
+            if (event.which == 81) {
+                console.log("Замена на ферзя");
+                if (motion) {
+                    func_appointment_queen_scourge(func_search_img_by_num(memory_for_conversion));
+                } else {
+                    func_appointment_queen_sentinel(func_search_img_by_num(memory_for_conversion));
+                }
+            } else if (event.which == 83) {
+                console.log("Замена на коня");
+                if (motion) {
+                    func_appointment_steed_scourge(func_search_img_by_num(memory_for_conversion));
+                } else {
+                    func_appointment_steed_sentinel(func_search_img_by_num(memory_for_conversion));
+                }
             }
+            
             flag_for_conversion = false;
+            func_troubleshooting_for_king();
         }
-        func_troubleshooting_for_king();
-        console.log("Событие клавы для превращения ", event);
     }
 };
 let func_search_kings = function(){ //ищет div короля в зависимости от того, чей щас ход и возвращает его
@@ -1278,6 +1311,7 @@ let func_go_re = function(){ //эта функция крепится на кн�
     let promise = new Promise ((resolve, reject) =>{  
     DisAppearingFigures();
     for_changes.style.display = 'none';
+    notificationContainer.classList.remove('show_conversion');
     resolve();    // учтено, что после ре наступает ход белых !!!
 });
 promise.then(AppearingFigures);
@@ -1312,3 +1346,12 @@ let func_resignation_scourge = function(){ //эта функция крепит�
 //
 
 
+const notificationParent = document.querySelector('.notification_container');
+const messageBox = document.querySelector('.for_changes');
+
+if (pawnNeedsConversion) {
+    messageBox.innerText = 'Please press "Q" or "S" button to conversion pawn';
+    notificationParent.classList.add('show_conversion');
+} else {
+    notificationParent.classList.remove('show_conversion');
+}
